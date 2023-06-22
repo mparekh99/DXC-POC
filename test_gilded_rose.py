@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-
 from gilded_rose import Item, GildedRose
-
 
 class GildedRoseTest(unittest.TestCase):
     # def test_foo(self):
@@ -27,7 +25,7 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEqual(18, items[0].quality)
         #Elixir
         self.assertEqual(3, items[1].sell_in)
-        self.assertEqual(5, items[1].quality)        
+        self.assertEqual(5, items[1].quality)
 
     def test_normal_item_expired(self):
         items = [Item("+5 Dexterity Vest", 10, 20)]
