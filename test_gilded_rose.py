@@ -4,11 +4,6 @@ import unittest
 from gilded_rose import Item, GildedRose
 
 class GildedRoseTest(unittest.TestCase):
-    # def test_foo(self):
-    #     items = [Item("foo", 0, 0)]
-    #     gilded_rose = GildedRose(items)
-    #     gilded_rose.update_quality()
-    #     self.assertEquals("fixme", items[0].name)
 
     def test_normal_item_normal(self):
         items = [Item("+5 Dexterity Vest", 10, 20),
