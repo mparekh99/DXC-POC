@@ -4,69 +4,26 @@ class GildedRose(object):
 
     def __init__(self, items):
         self.items = items
-    def normal_update(self, item):
-
-        if item.sell_in < 0:
-            if item.quality > 0:
-                item.quality -= 2
-            else:
-                item.quailty = 0
- 
-        item.sell_in -= 1
-        item.quality -=1
-
-    def AgedBrie_update(self, item):
-        item.sell_in -= 1
-        item.quality +=1 
-        if item.quality > 50:
-            item.quality = 50
-
-    def Sufuras_update(self, item):
-        return
-
-    def Concert_update(self, item):
-
-        if item.sell_in > 0:
-            if item.sell_in < 11:
-                item.quality += 2
-
-            elif item.sell_in < 6:
-                item.quality += 3
-
-            else:
-                item.quality += 1
-        else:
-            item.quality = 0
-        if item.quality > 50:
-            item.quality = 50
-
-        item.sell_in -= 1
-
-
-    def Conjured_update(self, item):
-
-        if item.sell_in < 0:
-            if item.quality > 0:
-                item.quality -= 4
-            else:
-                item.quailty = 0
-
-        item.sell_in -= 1
-        item.quality -=2
-
+        
     def update_quality(self):
-        for item in self.items:
-            if item.name == "Aged Brie":
-                self.AgedBrie_update(item)
-            elif item.name == "Backstage passes to a TAFKAL80ETC concert":
-                self.Concert_update(item)
-            elif item.name == "Sulfuras, Hand of Ragnaros":
-                self.Sufuras_update(item)
-            elif item.name == "Conjured Mana Cake":
-                self.Conjured_update(item)
-            else: #Normal
-                self.normal_update(item)
 
+        for item in self.items:
+            #my_item = Normal(item)
+
+            if item.name == "Aged Brie":
+                my_item = AgedBrie(item) 
+            elif item.name == "Backstage passes to a TAFKAL80ETC concert":
+                my_item = Concert(item)
+            elif item.name == "Sulfuras, Hand of Ragnaros":
+                my_item = Sulfuras(item)
+            elif item.name == "Conjured Mana Cake":
+                my_item = Conjured(item)
+            else: #Normal
+                my_item = Normal(item)
+
+
+            my_item.virtual_update()
+        
 
 class Item:
     def __init__(self, name, sell_in, quality):
@@ -74,5 +31,83 @@ class Item:
         self.sell_in = sell_in
         self.quality = quality
 
+    def virtual_update(self):
+        pass
+
     def __repr__(self):
         return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
+
+
+class Normal(Item):
+    
+    def __init__(self, item):
+        self.item = item
+    
+    
+    def virtual_update(self):
+        if self.item.sell_in < 0:
+            if self.item.quality > 0:
+                self.item.quality -= 2
+            else:
+                self.item.quailty = 0
+        
+        self.item.sell_in -= 1
+        self.item.quality -=1         
+
+
+class AgedBrie(Item):
+
+    def __init__(self, item):
+        self.item = item
+
+    def virtual_update(self):
+        self.item.sell_in -= 1
+        self.item.quality +=1 
+        if self.item.quality > 50:
+            self.item.quality = 50
+
+class Concert(Item):
+    
+    def __init__(self, item):
+        self.item = item    
+
+    def virtual_update(self):
+        if self.item.sell_in > 0:
+            if self.item.sell_in < 11:
+                self.item.quality += 2
+        
+            elif self.item.sell_in < 6:
+                self.item.quality += 3
+            
+            else:
+                self.item.quality += 1
+        else:
+            self.item.quality = 0
+        if self.item.quality > 50:
+            self.item.quality = 50
+
+        self.item.sell_in -= 1      
+
+class Sulfuras(Item):
+
+    def __init__(self, item):
+        self.item = item
+
+    def virtual_update(self):
+        return
+
+class Conjured(Item):
+
+    def __init__(self, item):
+        self.item = item
+
+    def virtual_update(self):
+        if self.item.sell_in < 0:
+            if self.item.quality > 0:
+                self.item.quality -= 4
+            else:
+                self.item.quailty = 0
+        
+        self.item.sell_in -= 1
+        self.item.quality -=2  
+
