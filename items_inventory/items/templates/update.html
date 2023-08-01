@@ -1,0 +1,15 @@
+<h1>Update An Item</h1>
+
+<form action="updateItem/{{ updated_item.id }}" method="post">
+{% csrf_token %}
+Item Name:<br>
+<input name="name" type="text">
+<br><br>
+Days Till Expire:<br>
+<input name="expiration" type="text">
+<br><br>
+Quality:<br>
+<input name="quality" type="text">
+<br><br>
+<input type="submit" value="Submit">
+</form>

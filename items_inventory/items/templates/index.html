@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<h1>Current Inventory</h1>
+
+<table name="stock_display" border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Day's Till Expired</th>
+        <th>Quality</th>
+    </tr>
+
+{% for x in mystock %}
+<tr>
+    <td><a name="updating" href="update/{{ x.id }}">{{ x.id }}</a></td>
+    <td>{{ x.name }}</td>
+    <td>{{ x.expiration }}</td>
+    <td>{{ x.quality }}</td>
+    <td><a href="delete/{{ x.id }}">sell</a>
+    </tr>
+{% endfor %}
+</table>
+
+
+<form name="numberDays" action="numDays" method="post">
+    {% csrf_token %}
+    <label for="numDays">Projected Values After This Many Days: </label>
+    <input id="numDays" type="text" name="numDays">
+    <input type="submit" value="Submit">
+</form>
+
+
+
+
+<p>
+<a name="adding" href="add/">Add an Item</a>
+</p>
+
+<form name="sellAll" action="deleteAll" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Sell All">
+</form>
+
+{% endblock %}
