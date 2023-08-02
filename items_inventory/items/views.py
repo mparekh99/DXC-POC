@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import os
 import os.path
+import glob
 from django.template import loader
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
@@ -14,6 +15,14 @@ from django.shortcuts import render
 from .forms import *
 from .models import *
 
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+PATH_URL = BASE_DIR / 'media'
+
+
+
+
 def upload_file(request):
     """Uploading File function"""
     context = {}
@@ -21,7 +30,15 @@ def upload_file(request):
        uploaded_file = request.FILES['Inventory']
        fs = FileSystemStorage()
     #    uploaded_file.name = 'Inventory.json'
+       print(uploaded_file.name, uploaded_file)
+    #    print(validateJson(uploaded_file.name))
+       
+       if ".json" not in uploaded_file.name:
+            return render(request, "upload.html")
+       
        name = fs.save(uploaded_file.name, uploaded_file)
+
+    #    print(fs.base_location)
        #os.rename(uploaded_file.name, "Inventory.json")
 
        context['url'] = fs.url(name)
@@ -36,9 +53,12 @@ def index(request):
     mystock = Item.objects.all().values() 
     template = loader.get_template('index.html')
     print(FileSystemStorage.path)
-    source_dir = Path("C:/Users/mparekh9/OneDrive - DXC" + \
-                      " Production/Documents/Repos/WebApp_Practice/items_inventory/media/")
-    files = source_dir.glob("*.json")
+
+    
+    print(PATH_URL)
+
+    
+    files = PATH_URL.glob("*.json")
     print(files)
     #print(len(files))
 
@@ -50,7 +70,7 @@ def index(request):
     #print(getattr(Item.objects.last(), "name"))
 
     for file in files:
-        #print("Hello")
+       
         with file.open('r') as file_handle:
             data = json.load(file_handle)
 
@@ -61,13 +81,13 @@ def index(request):
                 x = Item(count, name, expiration, quality)
                 x.save()
                 count =  count + 1
-            print("Mihir")
+            
             mystock = Item.objects.all().values()
-        print("Removing")
+     
         os.remove(file)
-        print("Removed")
-    
-    print("Finishd")
+ 
+
+
     context = {
         'mystock': mystock
     }
