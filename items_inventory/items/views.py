@@ -6,14 +6,13 @@ import json
 from pathlib import Path
 import os
 import os.path
-import glob
 from django.template import loader
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render
-from .forms import *
-from .models import *
+from items.forms import NameForm, addForm, updateForm
+from items.models import Item, GildedRose, kata_item, Normal, AgedBrie, Sulfuras, Concert, Conjured
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,21 +26,21 @@ def upload_file(request):
     """Uploading File function"""
     context = {}
     if request.method == "POST":
-       uploaded_file = request.FILES['Inventory']
-       fs = FileSystemStorage()
-    #    uploaded_file.name = 'Inventory.json'
-       print(uploaded_file.name, uploaded_file)
-    #    print(validateJson(uploaded_file.name))
-       
-       if ".json" not in uploaded_file.name:
+        uploaded_file = request.FILES['Inventory']
+        fs = FileSystemStorage()
+        #    uploaded_file.name = 'Inventory.json'
+        print(uploaded_file.name, uploaded_file)
+        #    print(validateJson(uploaded_file.name))
+
+        if ".json" not in uploaded_file.name:
             return render(request, "upload.html")
-       
-       name = fs.save(uploaded_file.name, uploaded_file)
 
-    #    print(fs.base_location)
-       #os.rename(uploaded_file.name, "Inventory.json")
+        name = fs.save(uploaded_file.name, uploaded_file)
 
-       context['url'] = fs.url(name)
+        #    print(fs.base_location)
+        #os.rename(uploaded_file.name, "Inventory.json")
+
+        context['url'] = fs.url(name)
 
     # index(request)
 
@@ -54,10 +53,10 @@ def index(request):
     template = loader.get_template('index.html')
     print(FileSystemStorage.path)
 
-    
+
     print(PATH_URL)
 
-    
+
     files = PATH_URL.glob("*.json")
     print(files)
     #print(len(files))
@@ -70,7 +69,7 @@ def index(request):
     #print(getattr(Item.objects.last(), "name"))
 
     for file in files:
-       
+
         with file.open('r') as file_handle:
             data = json.load(file_handle)
 
@@ -81,11 +80,11 @@ def index(request):
                 x = Item(count, name, expiration, quality)
                 x.save()
                 count =  count + 1
-            
+
             mystock = Item.objects.all().values()
-     
+
         os.remove(file)
- 
+
 
 
     context = {
