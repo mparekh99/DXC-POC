@@ -41,12 +41,13 @@ This project was also built as a practice for **CI/CD (Continuous Integration/Co
 ### Clone Repository
 ```
 git clone https://github.com/mparekh99/DXC-POC.git
+cd DXC-POC
 ```
 
 ### Set up an environment
 ```
 python -m venv venv
-\venv\Scripts\activate
+.\venv\Scripts\activate
 ```
 ### Install the required dependencies
 ```
@@ -63,4 +64,9 @@ python manage.py createsuperuser
 ### Run the development server
 ```
 python manage.py runserver
+```
+
+### Open Server 
+```
+http://127.0.0.1:8000/
 ```
