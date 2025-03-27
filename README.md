@@ -40,7 +40,7 @@ This project was also built as a practice for **CI/CD (Continuous Integration/Co
 ## Setup and Installation
 ### Clone Repository
 ```
-https://github.com/mparekh99/DXC-POC.git
+git clone https://github.com/mparekh99/DXC-POC.git
 ```
 
 ### Set up an environment
